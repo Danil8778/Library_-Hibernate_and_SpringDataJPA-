@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+
+<p th:text="${book}"></p>
+<br/>
+<span th:if="${owner}">This book is taken by:
+    <a th:text="${owner}"
+    th:href="@{/people/{id}(id=${owner.getId()})}"></a></span>
+
+<div th:if="${people}"><span>This book is free.</span>
+<form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
+    <label for="person">This book can be taken by: </label>
+    <select th:object="${person}" th:field="*{id}" id="person">
+        <option th:each="person : ${people}" th:value="${person.getId()}"
+                th:text="${person.getName()}"></option>
+    </select>
+    <input type="submit" value="Add the book to the person"/>
+</form></div>
+
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+    <input type="submit" value="Edit book"/>
+</form>
+<br/>
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Delete book"/>
+</form>
+<a href="/">Menu</a>
+</body>
+</html>

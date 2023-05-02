@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thumeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>bookList</title>
+</head>
+<body>
+<a>Free books:</a>
+<div th:each="book : ${freeBooks}">
+    <a th:text="${book}"
+       th:href="@{books/{id}(id=${book.getId()})}"></a>
+</div>
+<br/>
+<a>Busy books:</a>
+<div th:each="book : ${busyBooks}">
+    <a th:text="${book}"
+       th:href="@{books/{id}(id=${book.getId()})}"></a>
+</div>
+<br/>
+<form th:method="GET" th:action="@{/books/new}">
+    <input type="submit" value="Add new book" />
+</form>
+<br/>
+<a href="/">Menu</a>
+</body>
+</html>

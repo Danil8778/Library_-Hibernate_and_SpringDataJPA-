@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Show</title>
+</head>
+<body>
+
+<p th:text="${person}"></p>
+
+<br/>
+<a>List of taken books: </a>
+<span th:if="${person.getBooks().isEmpty()}">the list of books is empty.</span>
+
+<br/>
+<div th:each="book : ${person.getBooks()}">
+    <span th:href="@{/books/{id}(id=${book.getId()})}"
+       th:text="${book}"></span>
+    <form style="display: inline"
+          th:method="PATCH" th:action="@{/people/{id}/edit/{bookId}(id=${person.getId()},
+    bookId=${book.getId()})}">
+        <input type="submit" value="Return the book"/>
+    </form>
+</div>
+<form th:method="GET" th:action="@{/books}">
+    <input type="submit" value="List of all books in library"/>
+</form>
+    <br/>
+
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Edit person"/>
+</form>
+<br/>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Delete person"/>
+</form>
+<a href="/">Menu</a>
+</body>
+</html>
