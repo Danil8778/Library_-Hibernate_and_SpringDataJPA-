@@ -43,15 +43,17 @@ public class BookController {
     }
 
     @PostMapping()
-    public String create(@Valid Book book, Model model, BindingResult bindingResult){
+    public String create(@Valid Book book, BindingResult bindingResult, Model model){
         bindingResult.getModel().put("book", book);
         if(bindingResult.hasErrors())
-            return "books/new";
+            return "/books/new";
 
         model.addAttribute("book", book);
-        booksService.create(book);
+        booksService.save(book);
         return "redirect:/books";
     }
+
+
     @GetMapping("/{id}")
     public String show(@PathVariable ("id") int id, Person person, Model model){
         model.addAttribute("person", person);
@@ -69,16 +71,30 @@ public class BookController {
 
 
     @PatchMapping("/{id}")
-    public String update(@PathVariable ("id") int id, Book book, Model model,
+    public String update(@PathVariable int id,  Model model, @Valid Book book,
                          BindingResult bindingResult){
-        bindingResult.getModel().put("book", book);
         if(bindingResult.hasErrors())
-            return "books/new";
+            return "/books/edit";
 
         model.addAttribute("book", book);
-        booksService.update(book);
+        booksService.update(book, id);
         return "redirect:/books";
     }
+
+//    @PatchMapping("/{id}")
+//    public String update(@PathVariable int id, Model model, @Valid Person person,
+//                         BindingResult bindingResult){
+//        if (bindingResult.hasErrors())
+//            return "/people/edit";
+//
+//        model.addAttribute("person", person);
+//        peopleService.update(person, id);
+//        return "redirect:/people";
+//    }
+
+
+
+
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable ("id") int id){
@@ -89,9 +105,10 @@ public class BookController {
     @GetMapping("/new")
     public String addBook(Model model){
         Book book = new Book();
-        model.addAttribute(book);
+        model.addAttribute("book", book);
         return "books/new";
     }
+
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable ("id") int id, Model model){

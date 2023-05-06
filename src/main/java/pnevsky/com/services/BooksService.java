@@ -73,23 +73,22 @@ public class BooksService {
 //    }
 
     @Transactional
-    public void update(Book book) {
+    public void save(Book book) {
         booksRepository.save(book);
     }
 
 
-
+    @Transactional
+    public void update(Book book, int id){
+        book.setId(id);
+        booksRepository.save(book);
+    }
 //    public void update(int id, Book book){
 //        jdbcTemplate.update("UPDATE Books SET title=?, author=?, year=? WHERE id=?",
 //                book.getTitle(), book.getAuthor(), book.getYear(), id);
 //
 //    }
 
-
-    @Transactional
-    public void create(Book book) {
-        booksRepository.save(book);
-    }
 
 
 
